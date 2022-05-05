@@ -331,7 +331,7 @@ int findConnectedDomain(Mat& srcImg, vector<vector<Point>>& connectedDomains, in
 						}
 						fancha /= m;
 						fancha = sqrt(fancha);
-						//printf("%.6f\t%.6f\t%.6f\t%.6f\t%0.6f\t%d\n", width, height, (float)domain.size(), Zhi1, fancha, n);
+						printf("%.6f\t%.6f\t%.6f\t%.6f\t%0.6f\t%d\n", width, height, (float)domain.size(), Zhi1, fancha, n);
 						//printf("%.6f\t%.6f\t%.6f\t%.6f\t%0.6f\t0\n", width, height, (float)domain.size(), Zhi1, fancha);
 						//printf("%.6f\t%.6f\t%.6f\t%.6f\t%0.6f\n", width, height, (float)domain.size(), Zhi1, fancha);
 						int i = 0;
@@ -389,8 +389,8 @@ void onMouse(int event, int x, int y, int flag, void* param)
 		cout << "at(" << x << ", " << y << ")value is:" << Point(x, y) << ", " << Zhi1 << endl;
 		circle(src, Point(x, y), 1, Scalar(0, 0, 0), 1);
 		circle(UnshapeMask, Point(x, y), 1, Scalar(255, 255, 255), 1);
-		//imshow("ª“∂»Õº", src);
-		//imshow("UnshapeMask", UnshapeMask);
+		imshow("ª“∂»Õº", src);
+		imshow("UnshapeMask", UnshapeMask);
 	}
 }
 void click_on_the_image(Mat image)
@@ -446,7 +446,7 @@ void operate(int, void*)
 	// ∏ﬂÀπµÕ∆µ¬À≤®
 	//GaussianBlur(src, Gablur, Size(2 * n + 1, 2 * n + 1), 0);
 	GaussianBlur(src, Gablur, Size(15, 15), 0);
-	//imshow("Gablur", Gablur);
+	imshow("Gablur", Gablur);
 	// ‘≠ÕºœÒºı»•µÕ∆µ≤ø∑÷µ√µΩ∑¥»ÒªØ—⁄ƒ§
 	//UnshapeMask = src - Gablur;
 	subtract(Gablur, src, UnshapeMask);
@@ -479,7 +479,7 @@ void operate(int, void*)
 
 	addWeighted(src, 1, UnshapeMask, 10, 0, UsmSrc);
 	//addWeighted(src, 1, UnshapeMask, ks = 10, 0, UsmSrc);
-	/*imshow*/("UsmSrc1", UsmSrc);
+	imshow("UsmSrc1", UsmSrc);
 
 	//threshold(UsmSrc, Usm_Binary, B = 155, 255, THRESH_BINARY_INV);
 	//imshow("∂˛÷µªØÕºœÒ", Usm_Binary);
@@ -507,31 +507,31 @@ void operate(int, void*)
 	dilate(UsmSrc, UsmSrc, kernel);
 	morphologyEx(UsmSrc, UsmSrc, MORPH_CLOSE, kernel, Point(-1, -1), 3);
 	morphologyEx(UsmSrc, UsmSrc, MORPH_CLOSE, kernel);
-	/*imshow*/("src", UsmSrc);
+	imshow("src", UsmSrc);
 
 	int Number = findConnectedDomain(UsmSrc, connectedDomains, 300, 1);
 	flag = false;
-	/*imshow*/("src1", UsmSrc);
+	imshow("src1", UsmSrc);
 	kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
 	morphologyEx(UsmSrc, UsmSrc, MORPH_CLOSE, kernel, Point(-1, -1), 2);
-	/*imshow*/("src1s", UsmSrc);
+	imshow("src1s", UsmSrc);
 	//cout << connectedDomains.size() << endl;
 
 	//connectedDomains.clear();
 	findConnectedDomain(UsmSrc, connectedDomains, 300, 3);
 	kernel = getStructuringElement(MORPH_CROSS, Size(3, 3));
 	morphologyEx(UsmSrc, UsmSrc, MORPH_OPEN, kernel);
-	/*imshow*/("src2", UsmSrc);
+	imshow("src2", UsmSrc);
 
 	kernel = getStructuringElement(MORPH_ELLIPSE, Size(3, 3));
 	erode(UsmSrc, UsmSrc, kernel);
-	/*imshow*/("src3", UsmSrc);
+	imshow("src3", UsmSrc);
 	//cout << connectedDomains.size() << endl;
 
 
 	//connectedDomains.clear();
 	findConnectedDomain(UsmSrc, connectedDomains, 300, 3);
-	/*imshow*/("src4", UsmSrc);
+	imshow("src4", UsmSrc);
 
 	Mat lookUpTable(1, 256, CV_8U, Scalar(0));
 	vector<CrackInfo> crackInfos;
@@ -577,7 +577,7 @@ void operate(int, void*)
 		}
 	}
 
-	/*imshow*/("src5", UsmSrc);
+	imshow("src5", UsmSrc);
 
 	if (py_flag)
 	{
@@ -593,10 +593,11 @@ void operate(int, void*)
 int main()
 {
 	string srcPath;
-	cout << "«Î ‰»ÎÕº∆¨¬∑æ∂£∫" << endl;
+	//cout << "«Î ‰»ÎÕº∆¨¬∑æ∂£∫" << endl;
+	srcPath = "Source\\5.5\\W3.1.png";
 	// Source/Normal1.1.png --∫√µ∞
 	// Source/block1.1.png --ªµµ∞
-	cin >> srcPath;
+	//cin >> srcPath;
 	src = imread(srcPath, CV_8UC1);
 	namedWindow("‘≠Õº", WINDOW_NORMAL);
 	namedWindow("ª“∂»Õº", WINDOW_GUI_NORMAL);

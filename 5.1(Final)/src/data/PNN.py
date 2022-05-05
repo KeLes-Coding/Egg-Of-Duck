@@ -157,15 +157,23 @@ def class_results(Prob, label_class):
 
 
 def judge(predict_results):
+    flag = 0
+    for i in range(len(predict_results)):
+        if predict_results[i] == 2:
+            flag = 1  # 有污点
     for i in range(len(predict_results)):
         if predict_results[i] == 1:
-            return True
-    return False
+            if flag == 1:
+                return 0  # 有污点和裂痕
+            return 1  # 无污点有裂痕
+    if flag == 1:
+        return 2  # 有污点无裂痕
+    return 3  # 无污点无裂痕
 
 
 def main():
     # 1. 导入数据
-    trainX, labelX = load_data(r"src\data\data4.30.2.txt")
+    trainX, labelX = load_data(r"src\data\data5.5.1.txt")
     testX = load_test_data("Test_Data.txt")
     # 2、样本数据归一化
     Nor_trainX = Normalization(trainX[:, :])
@@ -179,10 +187,14 @@ def main():
     print(predict_results)
     Judge = judge(predict_results)
     print(Judge)
-    if(Judge == False):
-        resultWD = showinfo('检测结果', '这是一颗好蛋')
+    if(Judge == 0):
+        resultWD = showinfo('检测结果', '这是一颗坏蛋，有污点')
+    elif Judge == 1:
+        resultWD = showwarning('检测结果', '这是一颗坏蛋,无污点')
+    elif Judge == 2:
+        resultWD = showinfo('检测结果', '这是一颗好蛋，有污点')
     else:
-        resultWD = showwarning('检测结果', '这是一颗坏蛋')
+        resultWD = showinfo('检测结果', '这是一颗好蛋，无污点')
     file = open("Test_Data.txt", 'w').close()
 
 
